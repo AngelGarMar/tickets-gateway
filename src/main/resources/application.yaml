@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: gateway
+  config:
+    import: "configserver:${spring.cloud.config.uri}" #"optional:configserver:http://localhost:8888" debido a que se configuró en el docker compose
+  cloud: # Debido a que se configuró el micro gateway en el docker compose, se agregaron las librerias spring-retry y spring-boot-starter-aop
+    config: # Debido a que se configuró el micro gateway en el docker compose, se agregaron las librerias spring-retry y spring-boot-starter-aop
+      fail-fast: true # Debido a que se configuró el micro gateway en el docker compose, se agregaron las librerias spring-retry y spring-boot-starter-aop
+      retry: # Debido a que se configuró el micro gateway en el docker compose, se agregaron las librerias spring-retry y spring-boot-starter-aop
+        max-attempts: 6 # Intentará conectarse hasta 6 veces
+        initial-interval: 3000 # Esperará 3 segundos entre el primer y segundo intento
+        max-interval: 5000 # El tiempo máximo de espera entre intentos será de 5 segundos
+        multiplier: 1.2 # Multiplica el tiempo de espera en cada intento fallido (3s, 3.6s, 4.3s...)
+#Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: ${eureka.client.service-url.defaultZone} #defaultZone: http://localhost:8761/eureka/ esto se pasa al docker-compose.yml
+    fetch-registry: true
+    register-with-eureka: true
